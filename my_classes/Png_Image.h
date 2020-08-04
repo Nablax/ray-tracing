@@ -7,8 +7,8 @@ public:
     bool foreign;
 public:
 
-    Png_Image(int w, int h, int n) {
-        data = new unsigned char[w * h * n];
+    Png_Image(unsigned char* data, int w, int h, int n) {
+        this->data = data;
         data_w = w;
         data_h = h;
         data_n = n;
@@ -23,7 +23,7 @@ public:
     Png_Image(Png_Image& other) = delete;
     Png_Image& operator=(Png_Image& other) = delete;
 
-    unsigned char& getNum(int row, int col, int rgba){
+    unsigned char& getIdx(int row, int col, int rgba){
         return *(data + (row * data_w + col) * data_n + rgba);
     }
 
@@ -32,7 +32,7 @@ public:
     int channel() { return data_n; }
 
     void write(const char* filename){
-        stbi_write_png(filename, data_w, data_h, data_n, data, data_w * data_n);
+        stbi_write_png(filename, data_w, data_h, data_n, data, data_w * 4);
     }
     ~Png_Image(){
         stbi_image_free(data);
