@@ -1,23 +1,15 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 class Png_Image {
-public:
+private:
     unsigned char* data;
     int data_w, data_h, data_n;
-    bool foreign;
 public:
-
-    Png_Image(unsigned char* data, int w, int h, int n) {
-        this->data = data;
+    Png_Image(int w, int h, int n) {
+        data = new unsigned char[w * h * n];
         data_w = w;
         data_h = h;
         data_n = n;
-        foreign = false;
-    }
-
-    Png_Image(const char* filename){
-        data = stbi_load(filename, &data_w, &data_h, &data_n, 0);
-        foreign = true;
     }
 
     Png_Image(Png_Image& other) = delete;
