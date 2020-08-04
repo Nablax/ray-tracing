@@ -8,6 +8,8 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-using color = glm::vec3;
+using color = glm::dvec3;
+using point3 = glm::dvec3;
+using vec3 = glm::dvec3;
 
 #endif //RAY_TRACING_TYPES_H

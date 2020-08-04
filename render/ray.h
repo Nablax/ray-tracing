@@ -1,29 +1,31 @@
 //
 // Created by cosmos on 8/3/20.
 //
+#ifndef RAY_TRACING_RAY_HPP
+#define RAY_TRACING_RAY_HPP
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <types.h>
 
-#ifndef RAY_TRACING_RAY_HPP
-#define RAY_TRACING_RAY_HPP
 class ray {
 public:
     ray() {}
-    ray(const glm::dvec3 origin, const glm::dvec3 direction)
+    ray(const point3& origin, const vec3& direction)
             : orig(origin), dir(direction)
     {}
 
-    glm::dvec3 origin() const  { return orig; }
-    glm::dvec3 direction() const { return dir; }
+    point3 origin() const  { return orig; }
+    vec3 direction() const { return dir; }
 
-    glm::dvec3 at(double t) const {
+    point3 at(double t) const {
         return orig + t * dir;
     }
 
 public:
-    glm::dvec3 orig;
-    glm::dvec3 dir;
+    point3 orig;
+    vec3 dir;
 };
 
 #endif //RAY_TRACING_RAY_HPP
