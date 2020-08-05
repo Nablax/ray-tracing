@@ -6,6 +6,7 @@
 #define RAY_TRACING_UTILITY_H
 
 #include <glm/glm.hpp>
+#include <glm/gtc/random.hpp>
 #include <vector>
 #include <cmath>
 #include <cstdlib>
@@ -31,6 +32,8 @@ using std::sqrt;
 
 const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.1415926535897932385;
+const double sqrt2div2 = 0.70710678;
+const double sqrt3div3 = 0.57735;
 
 // Utility Functions
 
@@ -53,6 +56,37 @@ inline double random_double() {
 inline double random_double(double min, double max) {
     // Returns a random real in [min,max).
     return min + (max-min)*random_double();
+}
+
+inline vec3 random_vec3(){
+    return vec3(random_double(), random_double(), random_double());
+}
+
+inline vec3 random_vec3(double min, double max){
+    return vec3(random_double(min,max), random_double(min,max), random_double(min,max));
+}
+
+vec3 random_in_unit_sphere() {
+    while (true) {
+        auto p = random_vec3(-1,1);
+        if (dot(p , p) >= 1) continue;
+        return p;
+    }
+}
+
+vec3 random_unit_sphere() {
+    auto a = random_double(0, 2*pi);
+    auto z = random_double(-1, 1);
+    auto r = sqrt(1 - z*z);
+    return vec3(r*cos(a), r*sin(a), z);
+}
+
+vec3 random_in_hemisphere(const vec3& normal) {
+    vec3 in_unit_sphere = random_in_unit_sphere();
+    if (dot(in_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
+        return in_unit_sphere;
+    else
+        return -in_unit_sphere;
 }
 
 #endif //RAY_TRACING_UTILITY_H

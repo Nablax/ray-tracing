@@ -20,18 +20,18 @@ public:
     Png_Image& operator=(Png_Image& other) = delete;
 
     void saveColor(color clr, int row, int col, int samples_per_pixel = 1){
-        double crate = color_scale / samples_per_pixel;
-        getIdx(row, col, 0) = clamp(clr.x * crate, 0, 255);
-        getIdx(row, col, 1) = clamp(clr.y * crate, 0, 255);
-        getIdx(row, col, 2) = clamp(clr.z * crate, 0, 255);
+        double crate = 1.0 / samples_per_pixel;
+        getIdx(row, col, 0) = clamp(sqrt(clr.x * crate), 0, 0.999) * 256;
+        getIdx(row, col, 1) = clamp(sqrt(clr.y * crate), 0, 0.999) * 256;
+        getIdx(row, col, 2) = clamp(sqrt(clr.z * crate), 0, 0.999) * 256;
         getIdx(row, col, 3) = alpha_scale;
     }
 
     void saveColorSeq(color clr, int samples_per_pixel = 1){
-        double crate = color_scale / samples_per_pixel;
-        *(data + curIdx++) = clamp(clr.x * crate, 0, 255);
-        *(data + curIdx++) = clamp(clr.y * crate, 0, 255);
-        *(data + curIdx++) = clamp(clr.z * crate, 0, 255);
+        double crate = 1.0 / samples_per_pixel;
+        *(data + curIdx++) = clamp(sqrt(clr.x * crate), 0, 0.999) * 256;
+        *(data + curIdx++) = clamp(sqrt(clr.y * crate), 0, 0.999) * 256;
+        *(data + curIdx++) = clamp(sqrt(clr.z * crate), 0, 0.999) * 256;
         *(data + curIdx++) = alpha_scale;
         curIdx %= imgSize;
     }
