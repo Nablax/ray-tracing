@@ -5,9 +5,7 @@
 #define RAY_TRACING_RAY_HPP
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <types.h>
+#include <utility.h>
 
 class ray {
 public:

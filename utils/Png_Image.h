@@ -6,7 +6,7 @@
 #define RAY_TRACING_PNG_IMAGE_H
 #include "stb_image.h"
 #include "stb_image_write.h"
-#include "types.h"
+#include "utility.h"
 class Png_Image {
 public:
     Png_Image(int w, int h, int n = 4) {
@@ -19,18 +19,20 @@ public:
     Png_Image(Png_Image& other) = delete;
     Png_Image& operator=(Png_Image& other) = delete;
 
-    void saveColor(color clr, int row, int col, int alpha=1){
-        getIdx(row, col, 0) = clr.x * color_rate;
-        getIdx(row, col, 1) = clr.y * color_rate;
-        getIdx(row, col, 2) = clr.z * color_rate;
-        getIdx(row, col, 3) = alpha * color_rate;
+    void saveColor(color clr, int row, int col, int samples_per_pixel = 1){
+        double crate = color_scale / samples_per_pixel;
+        getIdx(row, col, 0) = clamp(clr.x * crate, 0, 255);
+        getIdx(row, col, 1) = clamp(clr.y * crate, 0, 255);
+        getIdx(row, col, 2) = clamp(clr.z * crate, 0, 255);
+        getIdx(row, col, 3) = alpha_scale;
     }
 
-    void saveColorSeq(color clr, int alpha=1){
-        *(data + curIdx++) = clr.x * color_rate;
-        *(data + curIdx++) = clr.y * color_rate;
-        *(data + curIdx++) = clr.z * color_rate;
-        *(data + curIdx++) = alpha * color_rate;
+    void saveColorSeq(color clr, int samples_per_pixel = 1){
+        double crate = color_scale / samples_per_pixel;
+        *(data + curIdx++) = clamp(clr.x * crate, 0, 255);
+        *(data + curIdx++) = clamp(clr.y * crate, 0, 255);
+        *(data + curIdx++) = clamp(clr.z * crate, 0, 255);
+        *(data + curIdx++) = alpha_scale;
         curIdx %= imgSize;
     }
     int width() { return data_w; }
@@ -47,7 +49,7 @@ private:
     int data_w, data_h, data_n;
     int imgSize;
     int curIdx = 0;
-    const double color_rate = 255.999;
+    const double color_scale = 255.999, alpha_scale = 255.999;
     unsigned char& getIdx(int row, int col, int rgba){
         return *(data + (row * data_w + col) * data_n + rgba);
     }
