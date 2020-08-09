@@ -5,7 +5,7 @@
 #ifndef RAY_TRACING_MATERIAL_H
 #define RAY_TRACING_MATERIAL_H
 
-# include "hittable.h"
+# include "../physics/hittable.h"
 
 struct hit_record;
 

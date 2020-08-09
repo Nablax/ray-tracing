@@ -1,8 +1,8 @@
 #include "Png_Image.h"
-#include "hittable_list.h"
-#include "sphere.h"
+#include "physics/hittable_list.h"
+#include "physics/sphere.h"
 #include "camera.h"
-#include "material.h"
+#include "texture/material.h"
 
 color ray_color(const ray& r, const hittable &world, int depth) {
     hit_record rec;
