@@ -30,7 +30,7 @@ public:
         origin = lookfrom;
         horizontal = focus_dist * viewport_width * u;
         vertical = focus_dist * viewport_height * v;
-        lower_left_corner = origin - horizontal * 0.5 - vertical * 0.5 - focus_dist*w;
+        higher_left_corner = origin - horizontal * 0.5 + vertical * 0.5 - focus_dist*w;
 
         lens_radius = aperture / 2;
     }
@@ -42,13 +42,13 @@ public:
 
         return ray(
                 origin + offset,
-                lower_left_corner + s*horizontal + t*vertical - origin - offset
+                higher_left_corner + s*horizontal - t*vertical - origin - offset
         );
     }
 
 private:
     point3 origin;
-    point3 lower_left_corner;
+    point3 higher_left_corner;
     vec3 horizontal;
     vec3 vertical;
     vec3 u, v, w;

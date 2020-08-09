@@ -90,7 +90,7 @@ int main(){
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
     Png_Image png(image_width, image_height);
-    for (int row = png.height() - 1; row >= 0; row--) {
+    for (int row = 0; row < png.height(); row++) {
         for (int col = 0; col < png.width(); col++) {
             color pixel_color(0, 0, 0);
             for (int s = 0; s < samples_per_pixel; ++s) {
@@ -99,7 +99,7 @@ int main(){
                 ray r = cam.get_ray(u, v);
                 pixel_color += ray_color(r, world, max_depth);
             }
-            png.saveColorSeq(pixel_color, samples_per_pixel);
+            png.saveColor(pixel_color, row, col, samples_per_pixel);
         }
     }
     png.write("13.randomScene.png");
