@@ -40,7 +40,13 @@ int main(){
     world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.4, material_left));
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
-    camera cam;
+    point3 lookfrom(3,3,2);
+    point3 lookat(0,0,-1);
+    vec3 vup(0,1,0);
+    auto dist_to_focus = glm::distance(lookfrom, lookat);
+    auto aperture = 2.0;
+
+    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
     Png_Image png(image_width, image_height);
     for (int row = png.height() - 1; row >= 0; row--) {
@@ -55,6 +61,6 @@ int main(){
             png.saveColorSeq(pixel_color, samples_per_pixel);
         }
     }
-    png.write("10.refraction.png");
+    png.write("12.defocusBlur.png");
     return 0;
 }
